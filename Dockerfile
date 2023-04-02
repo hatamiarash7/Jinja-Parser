@@ -1,6 +1,6 @@
 FROM --platform=$BUILDPLATFORM python:3.11.2-slim-buster
 
-LABEL org.opencontainers.image.title="Jinja parser"
+LABEL org.opencontainers.image.title="jinja-parser"
 LABEL org.opencontainers.image.description="Live parser for Jinja2"
 LABEL org.opencontainers.image.url="https://github.com/hatamiarash7/Jinja-Parser"
 LABEL org.opencontainers.image.source="https://github.com/hatamiarash7/Jinja-Parser"
