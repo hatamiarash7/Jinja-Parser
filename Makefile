@@ -2,7 +2,7 @@
 .DEFAULT_GOAL := help
 
 install: ## Install requirements
-	pip install -r requirements.txt
+	python3 -m pip install -r requirements.txt
 
 run: ## Run project
 	gunicorn -b 127.0.0.1:5000 --log-level debug app:app
