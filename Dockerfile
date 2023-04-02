@@ -1,4 +1,16 @@
-FROM python:3.11.2-slim
+FROM --platform=$BUILDPLATFORM python:3.11.2-slim-buster
+
+ARG APP_VERSION="undefined@docker"
+
+LABEL org.opencontainers.image.title="Jinja parser"
+LABEL org.opencontainers.image.description="Live parser for Jinja2"
+LABEL org.opencontainers.image.url="https://github.com/hatamiarash7/Jinja-Parser"
+LABEL org.opencontainers.image.source="https://github.com/hatamiarash7/Jinja-Parser"
+LABEL org.opencontainers.image.vendor="hatamiarash7"
+LABEL org.opencontainers.image.author="hatamiarash7"
+LABEL org.opencontainers.version="$APP_VERSION"
+LABEL org.opencontainers.image.created="$DATE_CREATED"
+LABEL org.opencontainers.image.licenses="MIT"
 
 WORKDIR /app
 
