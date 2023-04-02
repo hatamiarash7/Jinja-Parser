@@ -7,7 +7,7 @@ It's a Live parser for Jinja2
 ### Local
 
 ```bash
-git clone https://github.com/hatamiarash7/jinja-parser.git
+git clone https://github.com/hatamiarash7/jinja-parser.git && cd jinja-parser
 make install
 make run
 ```
