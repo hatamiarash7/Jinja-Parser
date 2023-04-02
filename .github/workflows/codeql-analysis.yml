@@ -5,13 +5,13 @@ on:
     branches:
       - main
     paths:
-      - "main.py"
+      - "app.py"
       - ".github/workflows/codeql-analysis.yml"
   pull_request:
     branches:
       - main
     paths:
-      - "main.py"
+      - "app.py"
       - ".github/workflows/codeql-analysis.yml"
   workflow_dispatch:
 

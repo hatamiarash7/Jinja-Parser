@@ -5,13 +5,13 @@ on:
     branches:
       - main
     paths:
-      - "main.py"
+      - "app.py"
       - ".github/workflows/gitguardian.yml"
   pull_request:
     branches:
       - main
     paths:
-      - "main.py"
+      - "app.py"
       - ".github/workflows/gitguardian.yml"
   workflow_dispatch:
 
