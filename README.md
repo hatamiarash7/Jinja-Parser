@@ -15,7 +15,7 @@ python3 main.py
 ### Docker
 
 ```bash
-docker run -d -p 5000:5000 hatamiarash7/jinja-parser
+docker run -d -p 8080:8080 hatamiarash7/jinja-parser
 ```
 
 ## Configure
