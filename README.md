@@ -18,6 +18,8 @@ make run
 docker run -d -p 8080:8080 hatamiarash7/jinja-parser
 ```
 
+Open <http://localhost:8080>.
+
 ---
 
 ## Support 💛
