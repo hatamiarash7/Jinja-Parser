@@ -2,6 +2,8 @@
 
 It's a Live parser for Jinja2
 
+![sc](.github/sc.png)
+
 ## Install
 
 ### Local
