@@ -11,6 +11,7 @@
 #render {
   background: #eee;
   padding: 2px 5px;
+  overflow: auto;
 }
 
 span.whitespace {
