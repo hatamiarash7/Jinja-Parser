@@ -1,3 +1,7 @@
+body {
+  background-color: #191b1f;
+}
+
 #template,
 #render,
 #values {
@@ -6,18 +10,29 @@
   resize: vertical;
   font-family: "Courier New", Courier, monospace;
   border: 1px solid #ccc;
+  background: #292d3e;
+  color: #fff;
+  padding: 2px 5px;
 }
 
 #render {
-  background: #eee;
-  padding: 2px 5px;
   overflow: auto;
+  background-color: #1d202d;
 }
 
 span.whitespace {
-  color: #ccc;
+  color: #aaa;
 }
 
 label {
   font-weight: normal;
+  color: #fff;
+}
+
+h1 {
+  color: #fff;
+}
+
+form {
+  margin-top: 5px;
 }
