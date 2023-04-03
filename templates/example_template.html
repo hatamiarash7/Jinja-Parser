@@ -1,7 +1,12 @@
 {% raw %}
-Hello {{name}}!
+Hello {{ name }}!
 
-{% if test -%}
-    How are you?
-{%- endif %}
+{% if score > 80 %}
+I'm happy to inform you that you did very well on today's {{ name }}.
+{% else %}
+I'm sorry to inform you that you did not do so well on today's {{ name }}.
+{% endif %}
+You reached {{ score }} out of {{ max_score }} points.
+
+See you tomorrow!
 {% endraw %}
