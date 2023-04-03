@@ -7,6 +7,7 @@ from random import choice
 from html import escape
 import json
 import yaml
+from yaml import Loader
 
 
 app = Flask(__name__)
@@ -47,7 +48,10 @@ def convert():
 
         elif request.form['type'] == "yaml":
             try:
-                values = yaml.load(request.form['values'])
+                values = yaml.load(
+                    stream=request.form['values'],
+                    Loader=Loader
+                )
             except (ValueError, yaml.parser.ParserError, TypeError) as e:
                 return "Value error in YAML: {0}".format(e)
         else:
