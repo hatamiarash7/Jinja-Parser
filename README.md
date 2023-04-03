@@ -1,5 +1,7 @@
 # Jinja Parser
 
+[![Release](https://github.com/hatamiarash7/Jinja-Parser/actions/workflows/release.yml/badge.svg)](https://github.com/hatamiarash7/Jinja-Parser/actions/workflows/release.yml) [![CodeQL](https://github.com/hatamiarash7/Jinja-Parser/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/hatamiarash7/Jinja-Parser/actions/workflows/codeql-analysis.yml) ![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/hatamiarash7/jinja-parser?sort=semver)
+
 It's a Live parser for Jinja2
 
 ![sc](.github/sc.png)
