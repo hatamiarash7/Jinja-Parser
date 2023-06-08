@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM python:3.11.3-slim-buster
+FROM --platform=$BUILDPLATFORM python:3.11.4-slim-buster
 
 LABEL org.opencontainers.image.title="jinja-parser"
 LABEL org.opencontainers.image.description="Live parser for Jinja2"
