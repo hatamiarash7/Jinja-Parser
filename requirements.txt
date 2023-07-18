@@ -5,4 +5,4 @@ markupsafe==2.1.3
 Werkzeug==2.3.6
 ipython==8.14.0
 itsdangerous==2.1.2
-gunicorn==20.1.0
+gunicorn==21.1.0
