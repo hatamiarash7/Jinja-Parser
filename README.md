@@ -19,10 +19,10 @@ make run
 ### Docker
 
 ```bash
-docker run -d -p 8080:8080 hatamiarash7/jinja-parser
+docker run -d -p 8125:8125 hatamiarash7/jinja-parser
 ```
 
-Open <http://localhost:8080>.
+Open <http://localhost:8125>.
 
 ---
 
