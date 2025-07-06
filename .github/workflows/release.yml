@@ -22,11 +22,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-
-      - name: Get repository info
-        uses: gacts/github-slug@v1
-        id: slug
+          fetch-depth: 1
 
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v3
@@ -40,9 +36,12 @@ jobs:
           username: ${{ secrets.DOCKER_LOGIN }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Get version
+        run: echo "APP_VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
       - name: Get Current Date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
 
       - name: Build & Push Docker image
         uses: docker/build-push-action@v6
@@ -52,10 +51,10 @@ jobs:
           push: true
           platforms: linux/amd64,linux/386,linux/arm64,linux/arm/v6,linux/arm/v7
           build-args: |
-            APP_VERSION=${{ steps.slug.outputs.version }}"
+            APP_VERSION=${{ env.APP_VERSION }}
             DATE_CREATED=${{ steps.date.outputs.date }}
           tags: |
-            hatamiarash7/jinja-parser:${{ steps.slug.outputs.version }}
+            hatamiarash7/jinja-parser:${{ env.APP_VERSION }}
             hatamiarash7/jinja-parser:latest
 
       - name: Run Trivy vulnerability scanner
