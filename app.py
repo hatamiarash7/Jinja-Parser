@@ -1,68 +1,155 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function
 
-from flask import Flask, render_template, request
-from jinja2 import Environment, meta, exceptions
-from random import choice
-from html import escape
 import json
-import yaml
-from yaml import Loader
+from html import escape
+from random import choice
 
+import yaml
+from flask import Flask, jsonify, render_template, request
+from jinja2 import Environment, StrictUndefined, exceptions, meta, select_autoescape
 
 app = Flask(__name__)
+
+DUMMY_VALUES = [
+    "Lorem",
+    "Ipsum",
+    "Amet",
+    "Elit",
+    "Expositum",
+    "Dissimile",
+    "Superiori",
+    "Laboro",
+    "Torquate",
+    "sunt",
+]
+
+# Configure Jinja2 Environment for security and error handling.
+# - autoescape: Prevents XSS by escaping HTML characters.
+# - undefined: Raises error for undefined variables (aids development).
+JINJA2_ENVIRONMENT = Environment(
+    autoescape=select_autoescape(["html", "xml"]),
+    undefined=StrictUndefined,
+)
 
 
 @app.route("/")
 def home():
-    return render_template('index.html')
+    """Renders the home page (index.html)."""
+    return render_template("index.html")
 
 
-@app.route('/convert', methods=['GET', 'POST'])
+@app.route("/convert", methods=["POST"])
 def convert():
-    jinja2_env = Environment()
+    """
+    Handles POST requests to render a Jinja2 template.
+    Expects 'template', 'type', 'values', 'dummy', 'whitespaces' from input.
+    Returns JSON response with 'rendered_output' or 'error'.
+    """
+    # 1. Input Retrieval and Validation
+    template_string = request.form.get("template", "").strip()
+    input_type = request.form.get("type", "").lower()
+    values_string = request.form.get("values", "").strip()
+    dummy_flag = request.form.get("dummy", "0")
+    whitespaces_flag = request.form.get("whitespaces", "0")
 
+    if not template_string:
+        return jsonify({"error": "Template field cannot be empty."}), 400
+
+    use_dummy_data = bool(int(dummy_flag)) if dummy_flag.isdigit() else False
+    show_whitespaces = (
+        bool(int(whitespaces_flag)) if whitespaces_flag.isdigit() else False
+    )
+
+    # 2. Jinja2 Template Compilation
     try:
-        jinja2_tpl = jinja2_env.from_string(request.form['template'])
+        jinja2_tpl = JINJA2_ENVIRONMENT.from_string(template_string)
     except (exceptions.TemplateSyntaxError, exceptions.TemplateError) as e:
-        return "Syntax error in jinja2 template: {0}".format(e)
+        return jsonify({"error": f"Syntax error in Jinja2 template: {e}"}), 400
+    except Exception as e:
+        return jsonify(
+            {"error": f"An unexpected error occurred during template compilation: {e}"}
+        ), 500
 
-    dummy_values = [
-        'Lorem', 'Ipsum', 'Amet', 'Elit', 'Expositum',
-        'Dissimile', 'Superiori', 'Laboro', 'Torquate', 'sunt',
-    ]
-    values = {}
-
-    if bool(int(request.form['dummy'])):
-        vars_to_fill = meta.find_undeclared_variables(
-            jinja2_env.parse(request.form['template']))
-
-        for v in vars_to_fill:
-            values[v] = choice(dummy_values)
+    # 3. Variable Data Processing
+    template_variables = {}
+    if use_dummy_data:
+        try:
+            parsed_template = JINJA2_ENVIRONMENT.parse(template_string)
+            vars_to_fill = meta.find_undeclared_variables(parsed_template)
+            for var in vars_to_fill:
+                template_variables[var] = choice(DUMMY_VALUES)
+        except Exception as e:
+            return jsonify(
+                {"error": f"Error finding undeclared variables for dummy data: {e}"}
+            ), 500
     else:
-        if request.form['type'] == "json":
-            try:
-                values = json.loads(request.form['values'])
-            except ValueError as e:
-                return "Value error in JSON: {0}".format(e)
+        if not values_string:
+            return jsonify(
+                {"error": "Values field cannot be empty when not using dummy data."}
+            ), 400
 
-        elif request.form['type'] == "yaml":
+        if input_type == "json":
             try:
-                values = yaml.load(
-                    stream=request.form['values'],
-                    Loader=Loader
-                )
-            except (ValueError, yaml.parser.ParserError, TypeError) as e:
-                return "Value error in YAML: {0}".format(e)
+                template_variables = json.loads(values_string)
+            except json.JSONDecodeError as e:
+                return jsonify(
+                    {
+                        "error": f"JSON decode error: {e}. Please ensure your JSON is valid."
+                    }
+                ), 400
+            except TypeError as e:
+                return jsonify(
+                    {"error": f"Invalid JSON input type: {e}. Expected a string."}
+                ), 400
+        elif input_type == "yaml":
+            try:
+                # IMPORTANT: Use yaml.safe_load() for security.
+                template_variables = yaml.safe_load(stream=values_string)
+            except (yaml.YAMLError, TypeError) as e:
+                return jsonify(
+                    {
+                        "error": f"YAML parse error: {e}. Please ensure your YAML is valid."
+                    }
+                ), 400
         else:
-            return "Undefined input_type: {0}".format(request.form['type'])
+            return jsonify(
+                {
+                    "error": f"Undefined or unsupported input_type: '{escape(input_type)}'. Supported types are 'json' and 'yaml'."
+                }
+            ), 400
 
+        if not isinstance(template_variables, dict):
+            return jsonify(
+                {
+                    "error": f"Provided {input_type} data is not a dictionary. Template variables must be provided as a dictionary (e.g., {{'key': 'value'}})."
+                }
+            ), 400
+
+    # 4. Jinja2 Template Rendering
     try:
-        rendered_jinja2_tpl = jinja2_tpl.render(values)
+        rendered_jinja2_tpl = jinja2_tpl.render(template_variables)
     except (exceptions.TemplateRuntimeError, ValueError, TypeError) as e:
-        return "Error in your values input filed: {0}".format(e)
+        return jsonify(
+            {
+                "error": f"Error during template rendering: {e}. Check your template variables and their types."
+            }
+        ), 400
+    except Exception as e:
+        return jsonify(
+            {"error": f"An unexpected error occurred during template rendering: {e}"}
+        ), 500
 
-    if bool(int(request.form['whitespaces'])):
-        rendered_jinja2_tpl = rendered_jinja2_tpl.replace(' ', u'•')
+    # 5. Post-processing: Replace whitespaces if requested
+    if show_whitespaces:
+        rendered_jinja2_tpl = rendered_jinja2_tpl.replace(" ", "•")
 
-    return escape(rendered_jinja2_tpl).replace('\n', '<br />')
+    # 6. Final Output Preparation
+    # Escape final output for XSS prevention if inserted into HTML.
+    final_output = escape(rendered_jinja2_tpl).replace("\n", "<br />")
+
+    return jsonify({"rendered_output": final_output}), 200
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
