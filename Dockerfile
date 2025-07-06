@@ -1,4 +1,7 @@
-FROM --platform=$BUILDPLATFORM python:3.11.4-slim-buster
+FROM --platform=$BUILDPLATFORM python:3.13-slim-bookworm
+
+ARG DATE_CREATED
+ARG APP_VERSION="undefined@docker"
 
 LABEL org.opencontainers.image.title="jinja-parser"
 LABEL org.opencontainers.image.description="Live parser for Jinja2"
@@ -14,7 +17,7 @@ WORKDIR /app
 
 COPY ./requirements.txt /app
 
-RUN pip3 install -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY . .
 
