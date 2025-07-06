@@ -36,3 +36,7 @@ h1 {
 form {
   margin-top: 5px;
 }
+
+textarea {
+  border-radius: 10px;
+}
