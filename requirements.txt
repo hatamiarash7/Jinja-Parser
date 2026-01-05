@@ -3,6 +3,6 @@ jinja2==3.1.6
 pyyaml==6.0.3
 markupsafe==3.0.3
 Werkzeug==3.1.4
-ipython==9.8.0
+ipython==9.9.0
 itsdangerous==2.2.0
 gunicorn==23.0.0
