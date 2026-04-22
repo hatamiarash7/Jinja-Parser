@@ -11,19 +11,6 @@ from jinja2.sandbox import ImmutableSandboxedEnvironment
 
 app = Flask(__name__)
 
-DUMMY_VALUES: list[str] = [
-    "Lorem",
-    "Ipsum",
-    "Amet",
-    "Elit",
-    "Expositum",
-    "Dissimile",
-    "Superiori",
-    "Laboro",
-    "Torquate",
-    "sunt",
-]
-
 # Configure Jinja2 Environment for security and error handling.
 # - autoescape: Prevents XSS by escaping HTML characters.
 # - undefined: Raises error for undefined variables (aids development).
