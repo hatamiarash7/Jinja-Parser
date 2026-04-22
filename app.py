@@ -11,7 +11,7 @@ from jinja2.sandbox import ImmutableSandboxedEnvironment
 
 app = Flask(__name__)
 
-DUMMY_VALUES = [
+DUMMY_VALUES: list[str] = [
     "Lorem",
     "Ipsum",
     "Amet",
@@ -48,15 +48,15 @@ def convert():
     Returns JSON response with 'rendered_output' or 'error'.
     """
     # 1. Input Retrieval and Validation
-    template_string = request.form.get("template", "").strip()
-    input_type = request.form.get("type", "").lower()
-    values_string = request.form.get("values", "").strip()
-    whitespaces_flag = request.form.get("whitespaces", "0")
+    template_string: str = request.form.get("template", "").strip()
+    input_type: str = request.form.get("type", "").lower()
+    values_string: str = request.form.get("values", "").strip()
+    whitespaces_flag: str = request.form.get("whitespaces", "0")
 
     if not template_string:
         return jsonify({"error": "Template field cannot be empty."}), 400
 
-    show_whitespaces = (
+    show_whitespaces: bool = (
         bool(int(whitespaces_flag)) if whitespaces_flag.isdigit() else False
     )
 
@@ -71,7 +71,7 @@ def convert():
         ), 500
 
     # 3. Variable Data Processing
-    template_variables = {}
+    template_variables: dict = {}
 
     if not values_string:
         return jsonify(
@@ -113,7 +113,7 @@ def convert():
 
     # 4. Jinja2 Template Rendering
     try:
-        rendered_jinja2_tpl = jinja2_tpl.render(template_variables)
+        rendered_jinja2_tpl: str = jinja2_tpl.render(template_variables)
     except (exceptions.TemplateRuntimeError, ValueError, TypeError) as e:
         return jsonify(
             {
@@ -131,7 +131,7 @@ def convert():
 
     # 6. Final Output Preparation
     # Escape final output for XSS prevention if inserted into HTML.
-    final_output = escape(rendered_jinja2_tpl).replace("\n", "<br />")
+    final_output: str = escape(rendered_jinja2_tpl).replace("\n", "<br />")
 
     return jsonify({"rendered_output": final_output}), 200
 
