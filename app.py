@@ -33,7 +33,7 @@ JINJA2_ENVIRONMENT = Environment(
 )
 
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def home():
     """Renders the home page (index.html)."""
     return render_template("index.html")
