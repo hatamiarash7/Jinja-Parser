@@ -1,4 +1,10 @@
 {
-  "cSpell.words": ["Sandboxed", "whitespaces"],
+  "cSpell.words": [
+    "aquasecurity",
+    "Sandboxed",
+    "sarif",
+    "styfle",
+    "whitespaces"
+  ],
   "python-envs.defaultEnvManager": "ms-python.python:venv"
 }
