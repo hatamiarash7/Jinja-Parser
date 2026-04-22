@@ -4,6 +4,7 @@
     "Sandboxed",
     "sarif",
     "styfle",
+    "stylesheet",
     "whitespaces"
   ],
   "python-envs.defaultEnvManager": "ms-python.python:venv"
