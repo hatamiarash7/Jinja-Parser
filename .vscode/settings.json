@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["whitespaces"]
+  "cSpell.words": ["whitespaces"],
+  "python-envs.defaultEnvManager": "ms-python.python:venv"
 }
