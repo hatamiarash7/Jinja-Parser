@@ -7,7 +7,8 @@ from random import choice
 
 import yaml
 from flask import Flask, jsonify, render_template, request
-from jinja2 import Environment, StrictUndefined, exceptions, meta, select_autoescape
+from jinja2 import StrictUndefined, exceptions, meta, select_autoescape
+from jinja2.sandbox import ImmutableSandboxedEnvironment
 
 app = Flask(__name__)
 
@@ -27,9 +28,10 @@ DUMMY_VALUES = [
 # Configure Jinja2 Environment for security and error handling.
 # - autoescape: Prevents XSS by escaping HTML characters.
 # - undefined: Raises error for undefined variables (aids development).
-JINJA2_ENVIRONMENT = Environment(
+JINJA2_ENVIRONMENT = ImmutableSandboxedEnvironment(
     autoescape=select_autoescape(["html", "xml"]),
     undefined=StrictUndefined,
+    enable_async=False,
 )
 
 
