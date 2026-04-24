@@ -7,9 +7,9 @@ $(document).ready(function () {
   });
 
   $("#convert").click(function () {
-    var whitespaces = $('input[name="whitespace"]').is(":checked") ? 1 : 0;
-    var dummy = $('input[name="dummy"]').is(":checked") ? 1 : 0;
-    var input_type = $('input[name="type"]:checked').val();
+    let whitespaces = $('input[name="whitespace"]').is(":checked") ? 1 : 0;
+    let dummy = $('input[name="dummy"]').is(":checked") ? 1 : 0;
+    let input_type = $('input[name="type"]:checked').val();
 
     $.post("/convert", {
       template: $("#template").val(),
@@ -18,9 +18,9 @@ $(document).ready(function () {
       whitespaces: whitespaces,
       dummy: dummy,
     }).done(function (response) {
-      response = response.rendered_output.replace(
-        /•/g,
-        '<span class="whitespace">•</span>'
+      response = response.rendered_output.replaceAll(
+        "•",
+        '<span class="whitespace">•</span>',
       );
       $("#render").html(response);
     });
