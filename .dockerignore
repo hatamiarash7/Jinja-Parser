@@ -4,3 +4,7 @@ __pycache__
 README.md
 LICENSE
 *.log
+Makefile
+test_app.py
+.flake8
+.pylintrc

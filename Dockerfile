@@ -2,6 +2,8 @@ FROM --platform=$BUILDPLATFORM python:3.14-slim-bookworm
 
 ARG DATE_CREATED
 ARG APP_VERSION="undefined@docker"
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
 
 LABEL org.opencontainers.image.title="jinja-parser"
 LABEL org.opencontainers.image.description="Live parser for Jinja2"

@@ -1,3 +1,6 @@
+export PYTHONDONTWRITEBYTECODE := 1
+export PYTHONUNBUFFERED := 1
+
 .PHONY: install run lint test help
 .DEFAULT_GOAL := help
 
