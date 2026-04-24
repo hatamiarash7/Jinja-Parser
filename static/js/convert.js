@@ -17,12 +17,16 @@ $(document).ready(function () {
       type: input_type,
       whitespaces: whitespaces,
       dummy: dummy,
-    }).done(function (response) {
-      response = response.rendered_output.replaceAll(
-        "•",
-        '<span class="whitespace">•</span>',
-      );
-      $("#render").html(response);
-    });
+    })
+      .done(function (response) {
+        response = response.rendered_output.replaceAll(
+          "•",
+          '<span class="whitespace">•</span>',
+        );
+        $("#render").html(response);
+      })
+      .fail(function (xhr, status, error) {
+        $("#render").html(`<div class="error">${xhr.responseJSON.error}</div>`);
+      });
   });
 });
