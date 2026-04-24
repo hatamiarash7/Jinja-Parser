@@ -23,4 +23,4 @@ COPY . .
 
 EXPOSE 8125
 
-CMD ["gunicorn", "-b", "0.0.0.0:8125", "--log-level", "debug", "app:app"]
+CMD ["gunicorn", "-b", "0.0.0.0:8125", "--log-level", "info", "app:app"]
