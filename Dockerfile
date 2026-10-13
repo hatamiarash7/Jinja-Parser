@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM python:3.14-slim-bookworm
+FROM --platform=$BUILDPLATFORM python:3.15-slim-bookworm
 
 ARG DATE_CREATED
 ARG APP_VERSION="undefined@docker"
