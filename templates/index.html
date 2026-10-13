@@ -2,43 +2,46 @@
 <html lang="en">
 
 <head>
-    <title>Jinja parser</title>
+    <title>Jinja Parser</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Live parser for Jinja2">
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Mirrors Index — Open Source Mirror Directory">
+    <meta property="og:title" content="Jinja Parser">
     <meta property="og:description" content="Live parser for Jinja2">
-    <meta property="og:url" content="https://mirrors.arash-hatami.ir/">
+    <meta property="og:url" content="https://github.com/hatamiarash7/Jinja-Parser">
+    <meta property="og:image" content="https://raw.githubusercontent.com/hatamiarash7/Jinja-Parser/main/.github/sc.png">
 
     <link rel="preconnect" href="https://analytics.arash-hatami.ir" crossorigin>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
-    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/convert.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/convert.js') }}"></script>
     <script async src="https://analytics.arash-hatami.ir/js/pa-gfYwGqja8RDc3JvgiDVrQ.js"></script>
     <script>
-        window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+        window.plausible = window.plausible || function () { (plausible.q = plausible.q || []).push(arguments) }, plausible.init = plausible.init || function (i) { plausible.o = i || {} };
         plausible.init()
     </script>
 </head>
 
 <body>
-    <form class="container">
+    <main class="container">
         <div class="row">
             <div class="col-md-6">
                 <h1>Template</h1>
-                <textarea id="template">{% include 'example_template.html' %}</textarea>
+                <textarea id="template" aria-label="Jinja2 template">{% include 'example_template.html' %}</textarea>
             </div>
             <div class="col-md-6">
                 <h1>Render</h1>
-                <div id="render"></div>
+                <div id="render" aria-live="polite"></div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
                 <h1>Values</h1>
-                <textarea id="values">{% include 'example_values.html' %}</textarea>
+                <textarea id="values" aria-label="Template values">{% include 'example_values.html' %}</textarea>
             </div>
             <div class="col-md-6">
                 <h1>Settings</h1>
@@ -61,7 +64,7 @@
                 </div>
             </div>
         </div>
-    </form>
+    </main>
 </body>
 
 </html>
