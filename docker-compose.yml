@@ -1,0 +1,11 @@
+services:
+  jinja-parser:
+    build: .
+    image: hatamiarash7/jinja-parser:latest
+    container_name: jinja-parser
+    ports:
+      - "8125:8125"
+    environment:
+      # Number of gunicorn workers; match to available CPU cores.
+      WEB_CONCURRENCY: "2"
+    restart: unless-stopped
