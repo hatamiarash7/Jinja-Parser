@@ -1,11 +1,26 @@
 {
   "cSpell.words": [
     "aquasecurity",
+    "autocapitalize",
+    "autorun",
+    "describedby",
+    "endfor",
+    "endraw",
+    "fieldset",
+    "healthchecked",
     "healthz",
+    "htmlcov",
+    "linejoin",
+    "middot",
+    "noopener",
+    "noscript",
     "Sandboxed",
     "sarif",
+    "SSTI",
     "styfle",
     "stylesheet",
+    "tojson",
+    "venv",
     "whitespaces"
   ],
   "python-envs.defaultEnvManager": "ms-python.python:venv"
