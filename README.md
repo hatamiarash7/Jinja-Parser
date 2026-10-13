@@ -14,6 +14,26 @@ A live parser for [Jinja2](https://jinja.palletsprojects.com/) templates. Paste 
 - **Whitespace visualization** — optional bullet (`•`) markers for spaces
 - **XSS-safe output** — rendered results are HTML-escaped before display
 - **Lightweight** — a single Flask endpoint plus a static page; runs anywhere Python runs
+- **Dependency-free interface** — custom CSS and vanilla JavaScript, with automatic light/dark themes and responsive editors
+- **Convenient editing** — debounced auto-render, Ctrl/Cmd + Enter, plain-text copying, and a Jinja2 quick reference
+- **Accessible controls** — labelled editors, visible keyboard focus, touch-sized controls, and announced rendering status
+
+### Using the playground
+
+The example renders on page load. Edit the template and provide matching JSON
+or YAML values (an object/mapping, or `{}` when no variables are needed).
+Auto-render runs after a short typing pause; turn it off to render manually
+with **Render** or **Ctrl/Cmd + Enter**. Switching the format does not translate
+your data: select the format matching what you pasted.
+
+**Show whitespace** marks spaces without changing the copied output. **Copy**
+copies the displayed text with its original spaces and line breaks. **Clear**
+asks for confirmation before removing your work. Tab keeps its normal keyboard
+navigation behavior.
+
+Templates and values are sent to the running server for rendering. Avoid using
+secrets or sensitive data. Drafts are not saved to browser storage, and rendered
+HTML is shown as text, not executed.
 
 ## Install
 
@@ -119,7 +139,7 @@ Tests live in [`test_app.py`](test_app.py) (pytest, Flask test client) and cover
 ```text
 app.py                  # Flask app: GET /, POST /convert, GET /healthz
 templates/              # Jinja2 page templates (index + example snippets)
-static/                 # CSS/JS assets (Bootstrap, jQuery, converter logic)
+static/                 # CSS/JS assets (custom, dependency-free) + favicon
 test_app.py             # pytest suite
 Dockerfile              # OCI image (non-root, healthchecked)
 docker-compose.yml      # Local Compose setup
