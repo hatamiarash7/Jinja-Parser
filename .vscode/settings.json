@@ -11,6 +11,7 @@
     "healthz",
     "htmlcov",
     "linejoin",
+    "logfile",
     "middot",
     "noopener",
     "noscript",
@@ -20,6 +21,7 @@
     "styfle",
     "stylesheet",
     "tojson",
+    "urlopen",
     "venv",
     "whitespaces"
   ],

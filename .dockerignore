@@ -23,6 +23,10 @@ test_app.py
 requirements-dev.txt
 pyproject.toml
 Makefile
+.editorconfig
+.flake8
+.pylintrc
+docker-compose.yml
 
 # Docs
 README.md
