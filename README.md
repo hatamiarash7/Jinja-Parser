@@ -63,9 +63,9 @@ Open <http://localhost:8125>.
 
 #### Configuration
 
-| Variable       | Default | Description                          |
-| -------------- | ------- | ------------------------------------ |
-| `WEB_CONCURRENCY` | `2`   | Number of gunicorn workers           |
+| Variable          | Default | Description                |
+| ----------------- | ------- | -------------------------- |
+| `WEB_CONCURRENCY` | `2`     | Number of gunicorn workers |
 
 ```bash
 docker run -d -p 8125:8125 -e WEB_CONCURRENCY=4 hatamiarash7/jinja-parser
@@ -85,12 +85,12 @@ Liveness probe. Returns `200` with `{"status": "ok"}`.
 
 Renders a template. Accepts form-encoded fields:
 
-| Field         | Required | Description                                      |
-| ------------- | -------- | ------------------------------------------------ |
-| `template`    | yes      | Jinja2 template source                           |
+| Field         | Required | Description                                           |
+| ------------- | -------- | ----------------------------------------------------- |
+| `template`    | yes      | Jinja2 template source                                |
 | `type`        | yes      | Variables format: `json` or `yaml` (case-insensitive) |
-| `values`      | yes      | Variables as an object/dictionary                |
-| `whitespaces` | no       | `1` to replace spaces with `•`, otherwise `0`    |
+| `values`      | yes      | Variables as an object/dictionary                     |
+| `whitespaces` | no       | `1` to replace spaces with `•`, otherwise `0`         |
 
 Example:
 
