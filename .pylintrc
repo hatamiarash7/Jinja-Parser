@@ -1,1 +1,24 @@
+[MAIN]
+# Oldest Python version still supported (Docker images use 3.15).
+py-version = 3.13
+
+[FORMAT]
+max-line-length = 100
+
+[BASIC]
+good-names = e, i, j, k, ex, _, app, client
+
+[DESIGN]
+# The /convert endpoint is a linear validation pipeline; one return per
+# validation stage is idiomatic Flask and reads better than nested helpers.
+max-args = 6
+max-returns = 12
+max-branches = 13
+
 [MESSAGES CONTROL]
+disable =
+    too-few-public-methods,
+    duplicate-code
+
+[REPORTS]
+score = no

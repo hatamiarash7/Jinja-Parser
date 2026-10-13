@@ -1,0 +1,13 @@
+[tool.pytest.ini_options]
+testpaths = ["test_app.py"]
+addopts = "-ra"
+
+[tool.coverage.run]
+source = ["app"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+exclude_also = [
+    "if __name__ == .__main__.:",
+]
