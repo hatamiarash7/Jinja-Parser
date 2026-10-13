@@ -5,6 +5,7 @@
 # pylint: disable=redefined-outer-name
 
 import json
+from html.parser import HTMLParser
 
 import pytest
 
@@ -47,6 +48,67 @@ def test_home_route(client):
     assert response.status_code == 200
     assert b"Jinja Parser" in response.data
     assert b'<textarea id="template"' in response.data
+
+
+class PageElements(HTMLParser):
+    """Collect rendered page tags without another testing dependency."""
+
+    def __init__(self):
+        super().__init__()
+        self.elements = []
+
+    def handle_starttag(self, tag, attrs):
+        self.elements.append((tag, dict(attrs)))
+
+
+def test_home_metadata_uses_application_url(client):
+    """Canonical/social URLs describe this app, never its source repository."""
+    response = client.get("/?tracking=ignored", base_url="https://parser.example")
+    html = response.get_data(as_text=True)
+    page = PageElements()
+    page.feed(html)
+    canonical = [
+        attrs["href"]
+        for tag, attrs in page.elements
+        if tag == "link" and attrs.get("rel") == "canonical"
+    ]
+    social_url = [
+        attrs["content"]
+        for tag, attrs in page.elements
+        if tag == "meta" and attrs.get("property") == "og:url"
+    ]
+    assert canonical == ["https://parser.example/"]
+    assert social_url == canonical
+    schema = json.loads(
+        html.split('<script type="application/ld+json">', 1)[1].split("</script>", 1)[0]
+    )
+    assert schema["url"] == canonical[0]
+    assert schema["@type"] == "WebApplication"
+    assert schema["isAccessibleForFree"] is True
+
+
+def test_home_has_accessible_dependency_free_workspace(client):
+    """Editor controls are labelled and only first-party UI assets are loaded."""
+    page = PageElements()
+    page.feed(client.get("/").get_data(as_text=True))
+    ids = {attrs["id"]: attrs for _, attrs in page.elements if "id" in attrs}
+    assert ids["parser-form"]["data-convert-url"] == "/convert"
+    assert ids["convert"]["type"] == "submit"
+    assert ids["render-status"]["role"] == "status"
+    assert ids["render"]["tabindex"] == "0"
+    assert "hidden" in ids["copy"]
+    labels = {attrs.get("for") for tag, attrs in page.elements if tag == "label"}
+    assert {"template", "values"}.issubset(labels)
+    assets = [
+        attrs.get("src", attrs.get("href", ""))
+        for tag, attrs in page.elements
+        if tag in {"script", "link"}
+    ]
+    assert "/static/js/convert.js" in assets
+    assert "/static/css/style.css" in assets
+    assert not any("bootstrap" in asset or "jquery" in asset for asset in assets)
+    for field in ("template", "values"):
+        assert ids[field]["aria-describedby"] in ids
 
 
 def test_home_post_not_allowed(client):

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff6a3d" />
+      <stop offset="1" stop-color="#d92038" />
+    </linearGradient>
+    <path id="brace" d="M 11 0 C 5 0 5 6.5 5 10 C 5 13 2.5 14 0 14 C 2.5 14 5 15 5 18 C 5 21.5 5 28 11 28"
+      fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#bg)" />
+  <use href="#brace" transform="translate(4 18)" />
+  <use href="#brace" transform="translate(18 18)" />
+  <use href="#brace" transform="translate(60 18) scale(-1 1)" />
+  <use href="#brace" transform="translate(46 18) scale(-1 1)" />
+</svg>

@@ -2,22 +2,67 @@
 <html lang="en">
 
 <head>
-    <title>Jinja Parser</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Live parser for Jinja2">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
+    <title>Jinja Parser — Live Jinja2 Template Playground</title>
+    <meta name="description" content="Render Jinja2 templates live in your browser. Paste a template, add JSON or YAML variables, and preview the output instantly — sandboxed and XSS-safe.">
+    <meta name="author" content="Arash Hatami">
+
+    <!-- Theming -->
+    <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0e14">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f5f6f8">
+
+    <!-- Icons -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="{{ url_for('static', filename='img/favicon.svg') }}">
+
+    <!-- Canonical + Open Graph -->
+    <link rel="canonical" href="{{ url_for('home', _external=True) }}">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Jinja Parser">
-    <meta property="og:description" content="Live parser for Jinja2">
-    <meta property="og:url" content="https://github.com/hatamiarash7/Jinja-Parser">
+    <meta property="og:site_name" content="Jinja Parser">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Jinja Parser — Live Jinja2 Template Playground">
+    <meta property="og:description" content="Render Jinja2 templates live in your browser with JSON or YAML variables. Sandboxed and XSS-safe.">
+    <meta property="og:url" content="{{ url_for('home', _external=True) }}">
     <meta property="og:image" content="https://raw.githubusercontent.com/hatamiarash7/Jinja-Parser/main/.github/sc.png">
+    <meta property="og:image:alt" content="Screenshot of the Jinja Parser web interface">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Jinja Parser — Live Jinja2 Template Playground">
+    <meta name="twitter:description" content="Render Jinja2 templates live in your browser with JSON or YAML variables. Sandboxed and XSS-safe.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/hatamiarash7/Jinja-Parser/main/.github/sc.png">
+    <meta name="twitter:image:alt" content="Screenshot of the Jinja Parser web interface">
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Jinja Parser",
+      "url": {{ url_for('home', _external=True) | tojson }},
+      "description": "A live parser for Jinja2 templates with JSON or YAML variables, rendered in a security sandbox.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript",
+      "isAccessibleForFree": true,
+      "license": "https://github.com/hatamiarash7/Jinja-Parser/blob/main/LICENSE",
+      "author": {
+        "@type": "Person",
+        "name": "Arash Hatami",
+        "url": "https://github.com/hatamiarash7"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
 
     <link rel="preconnect" href="https://analytics.arash-hatami.ir" crossorigin>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
-    <script defer src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-    <script defer src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <script defer src="{{ url_for('static', filename='js/convert.js') }}"></script>
     <script async src="https://analytics.arash-hatami.ir/js/pa-gfYwGqja8RDc3JvgiDVrQ.js"></script>
     <script>
@@ -27,44 +72,163 @@
 </head>
 
 <body>
-    <main class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h1>Template</h1>
-                <textarea id="template" aria-label="Jinja2 template">{% include 'example_template.html' %}</textarea>
-            </div>
-            <div class="col-md-6">
-                <h1>Render</h1>
-                <div id="render" aria-live="polite"></div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <h1>Values</h1>
-                <textarea id="values" aria-label="Template values">{% include 'example_values.html' %}</textarea>
-            </div>
-            <div class="col-md-6">
-                <h1>Settings</h1>
-                <div id="settings">
-                    <label>
-                        <input type="checkbox" name="whitespace" checked="checked" />
-                        Show whitespaces
-                    </label>
-                    <br />
-                    <label>
-                        <input type="radio" name="type" value="json" checked="checked" />
-                        JSON
-                    </label>
-                    <label>
-                        <input type="radio" name="type" value="yaml" /> YAML
-                    </label>
-                    <br />
-                    <input type="button" class="btn btn-success" id="convert" value="Convert" />
-                    <input type="button" class="btn btn-danger" id="clear" value="Clear" />
+    <a class="skip-link" href="#template">Skip to the editor</a>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="brand">
+                <img class="brand-logo" src="{{ url_for('static', filename='img/favicon.svg') }}" alt="" width="36"
+                    height="36">
+                <div>
+                    <h1 class="brand-name">Jinja Parser</h1>
+                    <p class="brand-tagline">Live Jinja2 template playground</p>
                 </div>
             </div>
+            <a class="btn btn-ghost gh-link" href="https://github.com/hatamiarash7/Jinja-Parser" rel="noopener" aria-label="Jinja Parser on GitHub">
+                <svg class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+                    <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
+                </svg>
+                <span>GitHub</span>
+            </a>
         </div>
+    </header>
+
+    <main class="container">
+        <p class="intro">Write a template. Add your data. See what it becomes.</p>
+        <form id="parser-form" data-convert-url="{{ url_for('convert') }}">
+        <div class="toolbar" role="group" aria-label="Actions">
+            <div class="toolbar-group">
+                <button type="submit" class="btn btn-primary" id="convert" title="Ctrl / Cmd + Enter" aria-keyshortcuts="Control+Enter Meta+Enter">
+                    <svg class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+                        <path fill="currentColor" d="M4 2.5a.75.75 0 0 1 1.15-.64l8 5a1.35 1.35 0 0 1 0 2.28l-8 5A.75.75 0 0 1 4 13.5Z" />
+                    </svg>
+                    <span>Render</span>
+                    <kbd class="kbd-hint">Ctrl ↵</kbd>
+                </button>
+                <button type="button" class="btn btn-ghost" id="clear">Clear</button>
+            </div>
+            <label class="switch">
+                <input type="checkbox" id="autorun" name="autorun" checked>
+                <span class="switch-track" aria-hidden="true"></span>
+                <span class="switch-label">Auto-render</span>
+            </label>
+        </div>
+
+        <div class="workspace" id="workspace">
+            <section class="panel" style="grid-area: template;" aria-label="Template editor">
+                <div class="panel-header">
+                    <h2>Template</h2>
+                    <span class="panel-hint">Jinja2 source</span>
+                </div>
+                <label class="sr-only" for="template">Jinja2 template</label>
+                <textarea id="template" spellcheck="false" autocorrect="off" autocapitalize="off"
+                    aria-describedby="editor-help" placeholder="Paste your Jinja2 template here…">{% include 'example_template.html' %}</textarea>
+            </section>
+
+            <section class="panel" style="grid-area: values;" aria-label="Template values">
+                <div class="panel-header">
+                    <h2>Values</h2>
+                    <fieldset class="segmented">
+                        <legend class="sr-only">Values format</legend>
+                        <label>
+                            <input type="radio" name="type" value="json" checked>
+                            <span>JSON</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="type" value="yaml">
+                            <span>YAML</span>
+                        </label>
+                    </fieldset>
+                </div>
+                <label class="sr-only" for="values">Template values</label>
+                <textarea id="values" spellcheck="false" autocorrect="off" autocapitalize="off"
+                    aria-describedby="values-help" placeholder="Variables as JSON or YAML…">{% include 'example_values.html' %}</textarea>
+                <p id="values-help" class="panel-note">Use an object (JSON) or mapping (YAML). Choose the format that matches your data.</p>
+            </section>
+
+            <section class="panel panel-output" style="grid-area: output;" aria-label="Rendered output">
+                <div class="panel-header">
+                    <h2>Output</h2>
+                    <div class="panel-tools">
+                        <label class="switch">
+                            <input type="checkbox" name="whitespace">
+                            <span class="switch-track" aria-hidden="true"></span>
+                            <span class="switch-label">Show whitespace</span>
+                        </label>
+                        <button type="button" class="btn btn-ghost btn-small" id="copy" data-state="idle" hidden>
+                            <svg class="icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+                                <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" d="M6 6h7v8H6zM10 6V2H2v8h4" />
+                            </svg>
+                            <span id="copy-label">Copy</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="render" class="output" role="region" tabindex="0" aria-label="Rendered template output" aria-busy="false" data-state="empty">
+                    <p class="output-placeholder">The rendered result will appear here.</p>
+                </div>
+                <p id="render-status" class="render-status" role="status" aria-live="polite" aria-atomic="true">Ready to render</p>
+            </section>
+
+            <section class="panel panel-reference" style="grid-area: reference;" aria-label="Jinja2 quick reference">
+                <div class="panel-header">
+                    <h2>Quick reference</h2>
+                    <span class="panel-hint">Common syntax</span>
+                </div>
+                <div class="reference-body">
+                    {% raw -%}
+                    <dl class="reference">
+                        <div class="ref-item">
+                            <dt><code>{{ variable }}</code></dt>
+                            <dd>Print a variable</dd>
+                        </div>
+                        <div class="ref-item">
+                            <dt><code>{{ items | join(", ") }}</code></dt>
+                            <dd>Apply a filter</dd>
+                        </div>
+                        <div class="ref-item">
+                            <dt><code>{% if condition %} … {% else %} … {% endif %}</code></dt>
+                            <dd>Conditional block</dd>
+                        </div>
+                        <div class="ref-item">
+                            <dt><code>{% for item in items %} … {% endfor %}</code></dt>
+                            <dd>Loop over a sequence</dd>
+                        </div>
+                        <div class="ref-item">
+                            <dt><code>{{ name | default("—") }}</code></dt>
+                            <dd>Fallback for missing values</dd>
+                        </div>
+                        <div class="ref-item">
+                            <dt><code>{# a comment #}</code></dt>
+                            <dd>Stripped from the output</dd>
+                        </div>
+                    </dl>
+                    {%- endraw %}
+                    <p class="reference-note">Undefined variables raise errors here (StrictUndefined) — use
+                        <code>default()</code> to provide fallbacks.</p>
+                </div>
+            </section>
+        </div>
+        <p id="editor-help" class="workspace-note">Templates and values are sent to this server for rendering. Avoid entering secrets or sensitive data. Output is displayed as text, not executed HTML.</p>
+        </form>
     </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p class="footer-shortcut">
+                <kbd>Ctrl / Cmd</kbd>+<kbd>Enter</kbd> render &middot; <kbd>Tab</kbd> move between controls
+            </p>
+            <nav class="footer-nav" aria-label="Footer">
+                <a href="https://jinja.palletsprojects.com/" rel="noopener">Jinja2 docs</a>
+                <a href="https://github.com/hatamiarash7/Jinja-Parser" rel="noopener">Source</a>
+                <a href="https://github.com/hatamiarash7/Jinja-Parser/issues" rel="noopener">Report an issue</a>
+            </nav>
+            <p class="footer-license">MIT License</p>
+        </div>
+    </footer>
+
+    <noscript>
+        <p class="noscript-warning">Jinja Parser needs JavaScript to render templates. Please enable it and reload.</p>
+    </noscript>
 </body>
 
 </html>
