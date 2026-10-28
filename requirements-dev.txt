@@ -1,6 +1,6 @@
 # Development-only dependencies. The Docker image installs requirements.txt only.
 -r requirements.txt
 
-pytest==9.1.1
+pytest==9.2.0
 pytest-cov==7.1.0
 pylint==4.1.3
