@@ -4,4 +4,4 @@ pyyaml==6.0.3
 markupsafe==3.0.4
 Werkzeug==3.1.9
 itsdangerous==2.2.0
-gunicorn==26.2.0
+gunicorn==27.0.1
